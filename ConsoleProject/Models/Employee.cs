@@ -8,26 +8,89 @@ namespace ConsoleProject.Models
     {
         private static int _count;
 
-        public readonly int No;
+        private readonly string _no;
+
+        private int _id;
         public string FullName { get; set; }
-        public string Position { get; set; }
-        public int Salary { get; set; }
         public string DepartmentName { get; set; }
 
-        static Employee()
+        private string _position;
+
+        private double _salary;
+
+        public string No { get; set; }
+
+        public bool CheckPosition(string position)
         {
-            _count = 0;
+            bool checkLetter = false;
+
+            if (position.Length > -2)
+            {
+                foreach (char item in position)
+                {
+                    if (!char.IsLetter(item))
+                    {
+                        checkLetter = false;
+                        return checkLetter;
+                    }
+                    else
+                    {
+                        checkLetter = true;
+                    }
+                }
+            }
+            return checkLetter;
         }
 
-        public Employee(string fullName , string position , int salary , string departmentName)
+        public double Salary 
+        {
+            get => _salary;
+            set
+            {
+                while (value < 250)
+                {
+                    Console.WriteLine("Minimum maas 250 ola biler");
+                    int salary;
+                    if (int.TryParse(Console.ReadLine(), out salary))
+                    {
+                        value = salary;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Herf daxil etmek olmaz");
+                    }
+                }
+                _salary = value;
+            }
+        }
+        public string Position    
+        {
+            get => _position;
+            set
+            {
+                while (!CheckPosition(value))
+                {
+                    Console.WriteLine("Duzgun daxil et");
+                    value = Console.ReadLine();
+                }
+                _position = value;
+            }
+        }
+        static Employee()
+        {
+            _count = 1000;
+        }
+
+        public Employee(string fullName , string position , int salary ,  string no, string departmentName)
         {
             FullName = fullName;
             Position = position;
             Salary = salary;
             DepartmentName = departmentName;
             _count++;
-            No = _count;
+            No = $"{Position.Substring(0,2)}{_count}";
+            No = no;
         }
-
+        
     }
 }
