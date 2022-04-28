@@ -17,9 +17,13 @@ namespace ConsoleProject.Services
         }
         public void AddDepartment(string name, int workerLimit, double salaryLimit)
         {
-            Department departments = new Department(name, workerLimit, salaryLimit);
-            Array.Resize(ref _departments, _departments.Length + 1);
-            _departments[_departments.Length - 1] = departments;
+            if (FindName(name) == null)
+            {
+                Department departments = new Department(name, workerLimit, salaryLimit);
+                Array.Resize(ref _departments, _departments.Length + 1);
+                _departments[_departments.Length - 1] = departments;
+            }
+            Console.WriteLine("Eyni adda ikinci sirket ola bulmez");
         }
         public void AddEmployee(string fullName, string position, double salary, string departmentName, string no)
         {
@@ -50,22 +54,26 @@ namespace ConsoleProject.Services
             Console.WriteLine($"Daxil edilen yanlisdir");
         }
 
-        public void EditDepartments(string departmentName, string name)
+        public void EditDepartments(string name)
         {
-            Department department = FindName(departmentName);
+            Department department = FindName(name);
             if (department != null)
             {
-                departmentName = name;
-                return;
+                department.Name = name;
+                foreach (Employee employee in department.Employees)
+                {
+                    employee.No.Replace(employee.No.Substring(0, 2), department.Name.Substring(0, 2).ToUpper());
+                    employee.DepartmentName = name;
+                }
             }
-            Console.WriteLine($"{departmentName} adli department tapilmadi");
+            Console.WriteLine($"{name} adli department tapilmadi");
         }
 
         public Department FindName(string name)
         {
             foreach (Department department in _departments)
             {
-                if (department.Name == name.ToUpper())
+                if (department.Name.ToUpper() == name.ToUpper())
                 {
                     return department;
                 }
@@ -90,6 +98,7 @@ namespace ConsoleProject.Services
                         employe.FullName = fullName;
                         employe.Position = position;
                         employe.Salary = salary;
+                        employe.DepartmentName = departmentName;
                     }
                 }
                 Console.WriteLine($"{no} nomreli isci tapilmadi");
@@ -107,22 +116,21 @@ namespace ConsoleProject.Services
             Department department = FindName(departmentName);
             if (department != null)
             {
-                foreach (Department item in _departments)
-                {
-                    if (item.Name.ToUpper() == departmentName.ToUpper())
+               
+                    if (departmentName.ToUpper() == departmentName.ToUpper())
                     {
-                        for (int i = 0; i < item.Employees.Length; i++)
+                        for (int i = 0; i < department.Employees.Length; i++)
                         {
-                            if (item.Employees[i].No == no)
+                            if (department.Employees[i].No == no)
                             {
-                                item.Employees[i] = item.Employees[item.Employees.Length - 1];
-                                Array.Resize(ref item.Employees, item.Employees.Length - 1);
+                                department.Employees[i] = department.Employees[department.Employees.Length - 1];
+                                Array.Resize(ref department.Employees, department.Employees.Length - 1);
                                 return;
                             }
                         }
                         Console.WriteLine($"{no} isci yoxdur");
                     }
-                }
+                
                 Console.WriteLine($"{departmentName} adli department tapilmadi");
                 return;
             }

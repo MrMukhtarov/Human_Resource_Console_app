@@ -14,9 +14,9 @@ namespace ConsoleProject.Models
 
         public Employee[] Employees;
 
-        public Employee[] Avarage;
 
-        public double SalaryLimit 
+
+        public double SalaryLimit
         {
             get => _salaryLimit;
             set
@@ -24,8 +24,7 @@ namespace ConsoleProject.Models
                 while (value < 250)
                 {
                     Console.WriteLine("Minimum verilecek emek haqqi 250 olmalidir");
-                    int salaryLimit;
-                    if (int.TryParse(Console.ReadLine() , out salaryLimit))
+                    if (int.TryParse(Console.ReadLine(), out int salaryLimit))
                     {
                         value = salaryLimit;
                     }
@@ -37,7 +36,7 @@ namespace ConsoleProject.Models
                 _salaryLimit = value;
             }
         }
-        public int WorkerLimit 
+        public int WorkerLimit
         {
             get => _workerLimit;
             set
@@ -58,7 +57,7 @@ namespace ConsoleProject.Models
                 _workerLimit = value;
             }
         }
-        public string Name 
+        public string Name
         {
             get => _name;
             set
@@ -69,9 +68,9 @@ namespace ConsoleProject.Models
                     value = Console.ReadLine();
                 }
                 _name = value;
-            }  
+            }
         }
-        public Department(string name , int workerLimit , double salaryLimit)
+        public Department(string name, int workerLimit, double salaryLimit)
         {
             Employee[] employe = new Employee[0];
             WorkerLimit = workerLimit;

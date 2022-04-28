@@ -9,15 +9,15 @@ namespace ConsoleProject.Interfaces
     {
         public Department[] Departments { get; }
         public void AddDepartment(string name, int workerLimit, double salaryLimit);
-       
+
         public void AddEmployee(string fullName, string position, double salary, string departmentName, string no);
 
 
-        public void EditDepartments(string departmentName, string name);
-      
+        public void EditDepartments( string name);
+
 
         public Department FindName(string name);
-   
+
 
         public void EditEmployee(string departmentName, string fullName, string no, double salary, string position);
 
@@ -26,6 +26,6 @@ namespace ConsoleProject.Interfaces
 
 
         public void RemoveEmployee(string no, string departmentName);
-    
+
     }
 }

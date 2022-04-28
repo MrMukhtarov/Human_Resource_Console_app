@@ -42,7 +42,7 @@ namespace ConsoleProject.Models
             return checkLetter;
         }
 
-        public double Salary 
+        public double Salary
         {
             get => _salary;
             set
@@ -63,7 +63,7 @@ namespace ConsoleProject.Models
                 _salary = value;
             }
         }
-        public string Position    
+        public string Position
         {
             get => _position;
             set
@@ -81,15 +81,15 @@ namespace ConsoleProject.Models
             _count = 1000;
         }
 
-        public Employee(string fullName , string position , double salary , string departmentName)
+        public Employee(string fullName, string position, double salary, string departmentName)
         {
             FullName = fullName;
             Position = position;
             Salary = salary;
             DepartmentName = departmentName;
             _count++;
-            No = $"{departmentName.Substring(0,2).ToUpper()}{_count}";
+            No = $"{departmentName.Substring(0, 2).ToUpper()}{_count}";
             Console.WriteLine(No);
-        }  
+        }
     }
 }
