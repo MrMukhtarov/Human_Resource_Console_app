@@ -24,7 +24,7 @@ namespace ConsoleProject.Models
         {
             bool checkLetter = false;
 
-            if (position.Length > -2)
+            if (position.Length >= 2)
             {
                 foreach (char item in position)
                 {
@@ -81,16 +81,15 @@ namespace ConsoleProject.Models
             _count = 1000;
         }
 
-        public Employee(string fullName , string position , int salary ,  string no, string departmentName)
+        public Employee(string fullName , string position , double salary , string departmentName)
         {
             FullName = fullName;
             Position = position;
             Salary = salary;
             DepartmentName = departmentName;
             _count++;
-            No = $"{Position.Substring(0,2)}{_count}";
-            No = no;
-        }
-        
+            No = $"{departmentName.Substring(0,2).ToUpper()}{_count}";
+            Console.WriteLine(No);
+        }  
     }
 }

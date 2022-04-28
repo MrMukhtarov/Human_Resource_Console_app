@@ -71,7 +71,7 @@ namespace ConsoleProject.Models
                 _name = value;
             }  
         }
-        public Department(int workerLimit , double salaryLimit,string name)
+        public Department(string name , int workerLimit , double salaryLimit)
         {
             Employee[] employe = new Employee[0];
             WorkerLimit = workerLimit;
