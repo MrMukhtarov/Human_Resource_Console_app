@@ -13,9 +13,6 @@ namespace ConsoleProject.Models
         private double _salaryLimit;
 
         public Employee[] Employees;
-
-
-
         public double SalaryLimit
         {
             get => _salaryLimit;
@@ -41,7 +38,7 @@ namespace ConsoleProject.Models
             get => _workerLimit;
             set
             {
-                while (value < 1)
+                while (value < 10)
                 {
                     Console.WriteLine("Minimum isci sayi 10 ola biler");
                     int workerLimit;
@@ -62,17 +59,36 @@ namespace ConsoleProject.Models
             get => _name;
             set
             {
-                while (value.Length < 2)
+                while (NameChecker(value))
                 {
                     Console.WriteLine("Ad minimum 2 herfden ibaret ola biler");
                     value = Console.ReadLine();
                 }
+                if (NameChecker(value))
+                {
+                    value = Name;
+                }
                 _name = value;
             }
         }
+        public bool NameChecker(string name)
+        {
+            if (name.Length >= 2)
+            {
+                foreach (var item in name)
+                {
+                    if (!char.IsLetter(item))
+                    {
+                        return false;
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
         public Department(string name, int workerLimit, double salaryLimit)
         {
-            Employee[] employe = new Employee[0];
+            Employees = new Employee[0];
             WorkerLimit = workerLimit;
             SalaryLimit = salaryLimit;
             Name = name;
@@ -87,5 +103,11 @@ namespace ConsoleProject.Models
             total = total / Employees.Length;
             return total;
         }
+
+        public override string ToString()
+        {
+            return $"Departmentin adi: {Name } Departmentin isci limiti: {WorkerLimit } Deparmentin sici maas limiti: {SalaryLimit}";
+        }
     }
+
 }

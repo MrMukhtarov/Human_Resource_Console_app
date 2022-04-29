@@ -91,5 +91,9 @@ namespace ConsoleProject.Models
             No = $"{departmentName.Substring(0, 2).ToUpper()}{_count}";
             Console.WriteLine(No);
         }
+        public override string ToString()
+        {
+            return $"{FullName} {_position} {_salary} {_no}";
+        }
     }
 }

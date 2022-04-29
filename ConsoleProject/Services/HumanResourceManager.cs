@@ -11,59 +11,66 @@ namespace ConsoleProject.Services
         private Department[] _departments;
         public Department[] Departments => _departments;
 
+
         public HumanResourceManager()
         {
             _departments = new Department[0];
+
         }
         public void AddDepartment(string name, int workerLimit, double salaryLimit)
         {
-            if (FindName(name) == null)
+            Department department = FindName(name);
+            if (department == null)
             {
                 Department departments = new Department(name, workerLimit, salaryLimit);
                 Array.Resize(ref _departments, _departments.Length + 1);
                 _departments[_departments.Length - 1] = departments;
+                return;
             }
-            Console.WriteLine("Eyni adda ikinci sirket ola bulmez");
-        }
-        public void AddEmployee(string fullName, string position, double salary, string departmentName, string no)
-        {
-            foreach (Department department in _departments)
+            else
             {
-                if (department.Name.ToUpper() == no.ToUpper())
-                {
+                Console.WriteLine("Eyni adda ikinci sirket ola bulmez");
+            }
 
-                    if (department.WorkerLimit > department.Employees.Length)
+        }
+        public void AddEmployee(string fullName, string position, double salary, string departmentName)
+        {
+            Department department = FindName(fullName);
+            if (department != null)
+            {
+                if (department.WorkerLimit > department.Employees.Length)
+                {
+                    if ((department.CalcSalaryAvarage() * department.Employees.Length) + salary > department.SalaryLimit)
                     {
-                        if ((department.CalcSalaryAvarage() * department.Employees.Length) + salary > department.SalaryLimit)
-                        {
-                            Console.WriteLine("Maas heddi asildi");
-                            return;
-                        }
-                        Employee departments = new Employee(fullName, position, salary, departmentName);
-                        Array.Resize(ref department.Employees, department.Employees.Length + 1);
-                        department.Employees[department.Employees.Length - 1] = departments;
+                        Console.WriteLine("Maas heddi asildi");
                         return;
                     }
-                    else
-                    {
-                        Console.WriteLine("Yer Yoxdur");
-                        return;
-                    }
+                    Employee employee = new Employee(fullName, position, salary, departmentName);
+                    Array.Resize(ref department.Employees, department.Employees.Length + 1);
+                    department.Employees[department.Employees.Length - 1] = employee;
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Yer Yoxdur");
+                    return;
                 }
             }
-            Console.WriteLine($"Daxil edilen yanlisdir");
         }
 
-        public void EditDepartments(string name)
+        public void EditDepartments(string name, string newname)
         {
             Department department = FindName(name);
             if (department != null)
             {
-                department.Name = name;
-                foreach (Employee employee in department.Employees)
+                department.Name = newname;
+                if (department.Employees != null)
                 {
-                    employee.No.Replace(employee.No.Substring(0, 2), department.Name.Substring(0, 2).ToUpper());
-                    employee.DepartmentName = name;
+                    foreach (Employee employee in department.Employees)
+                    {
+                        employee.No.Replace(employee.No.Substring(0, 2), department.Name.Substring(0, 2).ToUpper());
+                        employee.DepartmentName = newname;
+                    }
                 }
             }
             Console.WriteLine($"{name} adli department tapilmadi");
@@ -81,7 +88,7 @@ namespace ConsoleProject.Services
             return null;
         }
 
-        public void EditEmployee(string departmentName, string fullName, string no, double salary, string position)
+        public void EditEmployee(string departmentName,  string no, double salary, string position)
         {
             Department department = FindName(departmentName);
             if (department != null)
@@ -95,7 +102,6 @@ namespace ConsoleProject.Services
                             Console.WriteLine("Maas heddi asildi");
                             return;
                         }
-                        employe.FullName = fullName;
                         employe.Position = position;
                         employe.Salary = salary;
                         employe.DepartmentName = departmentName;
@@ -116,28 +122,27 @@ namespace ConsoleProject.Services
             Department department = FindName(departmentName);
             if (department != null)
             {
-               
-                    if (departmentName.ToUpper() == departmentName.ToUpper())
+
+                if (departmentName.ToUpper() == departmentName.ToUpper())
+                {
+                    for (int i = 0; i < department.Employees.Length; i++)
                     {
-                        for (int i = 0; i < department.Employees.Length; i++)
+                        if (department.Employees[i].No == no)
                         {
-                            if (department.Employees[i].No == no)
-                            {
-                                department.Employees[i] = department.Employees[department.Employees.Length - 1];
-                                Array.Resize(ref department.Employees, department.Employees.Length - 1);
-                                return;
-                            }
+                            department.Employees[i] = department.Employees[department.Employees.Length - 1];
+                            Array.Resize(ref department.Employees, department.Employees.Length - 1);
+                            return;
                         }
-                        Console.WriteLine($"{no} isci yoxdur");
                     }
-                
+                    Console.WriteLine($"{no} isci yoxdur");
+                }
+
                 Console.WriteLine($"{departmentName} adli department tapilmadi");
                 return;
             }
             Console.WriteLine($"{departmentName} adli department tapilmadi");
 
         }
-
-
+    
     }
 }
