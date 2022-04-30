@@ -35,42 +35,63 @@ namespace ConsoleProject.Services
         }
         public void AddEmployee(string fullName, string position, double salary, string departmentName)
         {
-            Department department = FindName(fullName);
-            if (department != null)
+            Department checkdepartment = null;
+
+            foreach (Department department in _departments)
             {
-                if (department.WorkerLimit > department.Employees.Length)
+                if (department != null && department.Name.ToUpper() == departmentName.Trim().ToUpper())
                 {
-                    if ((department.CalcSalaryAvarage() * department.Employees.Length) + salary > department.SalaryLimit)
-                    {
-                        Console.WriteLine("Maas heddi asildi");
-                        return;
-                    }
-                    Employee employee = new Employee(fullName, position, salary, departmentName);
-                    Array.Resize(ref department.Employees, department.Employees.Length + 1);
-                    department.Employees[department.Employees.Length - 1] = employee;
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("Yer Yoxdur");
-                    return;
+                    checkdepartment = department;
+                    break;
                 }
             }
+
+            if (checkdepartment != null)
+            {
+                int employeeCount = 0;
+                foreach (Employee employee in checkdepartment.Employees)
+                {
+                    if (employee != null)
+                    {
+                        employeeCount++;
+                    }
+                }
+
+                if (employeeCount < checkdepartment.WorkerLimit)
+                {
+                    if (((checkdepartment.CalcSalaryAvarage() * employeeCount) + salary) <= checkdepartment.SalaryLimit)
+                    {
+                        Array.Resize(ref checkdepartment.Employees, checkdepartment.Employees.Length + 1);
+                        checkdepartment.Employees[checkdepartment.Employees.Length - 1] = new Employee(fullName.Trim(), position.Trim(), salary, checkdepartment.Name);
+                        Console.WriteLine("Added Sucsesfly");
+                        return;
+                    }
+                }
+                else Console.WriteLine("Ischiler limitten choxdur");
+                return;
+            }
+            Console.WriteLine("Departament Tapilmadi");
         }
 
         public void EditDepartments(string name, string newname)
         {
             Department department = FindName(name);
+            Department department1 = FindName(newname);
+
             if (department != null)
             {
-                department.Name = newname;
-                if (department.Employees != null)
+                if (department1 != null)
                 {
-                    foreach (Employee employee in department.Employees)
-                    {
-                        employee.No.Replace(employee.No.Substring(0, 2), department.Name.Substring(0, 2).ToUpper());
-                        employee.DepartmentName = newname;
-                    }
+                    Console.WriteLine("bu adda department var artiq");
+                    newname = Console.ReadLine();
+                }
+
+                department.Name = newname;
+                foreach (Employee employee in department.Employees)
+                {
+                    employee.DepartmentName = newname;
+                    employee.No = employee.DepartmentName.Substring(0, 2).ToUpper() + employee.No.Substring(2);
+                    return;
                 }
             }
             Console.WriteLine($"{name} adli department tapilmadi");
@@ -88,15 +109,15 @@ namespace ConsoleProject.Services
             return null;
         }
 
-        public void EditEmployee(string departmentName,  string no, double salary, string position)
+        public void EditEmployee(string departmentName, string no, double salary, string position)
         {
             Department department = FindName(departmentName);
             if (department != null)
             {
                 foreach (Employee employe in department.Employees)
                 {
-                    if (employe.No == no)
-                    {
+                    if (employe.No == no.ToUpper())
+                 {
                         if (((department.CalcSalaryAvarage() * department.Employees.Length) - employe.Salary) + salary > department.SalaryLimit)
                         {
                             Console.WriteLine("Maas heddi asildi");
@@ -108,6 +129,7 @@ namespace ConsoleProject.Services
                     }
                 }
                 Console.WriteLine($"{no} nomreli isci tapilmadi");
+                return;
             }
             Console.WriteLine($"{department} adinda department tapilmadi");
         }
@@ -143,6 +165,6 @@ namespace ConsoleProject.Services
             Console.WriteLine($"{departmentName} adli department tapilmadi");
 
         }
-    
+
     }
 }

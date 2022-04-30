@@ -18,19 +18,12 @@ namespace ConsoleProject.Models
             get => _salaryLimit;
             set
             {
-                while (value < 250)
+                while (value < (_workerLimit * 250))
                 {
-                    Console.WriteLine("Minimum verilecek emek haqqi 250 olmalidir");
-                    if (int.TryParse(Console.ReadLine(), out int salaryLimit))
-                    {
-                        value = salaryLimit;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Herf daxil etmek olmaz");
-                    }
+                    Console.WriteLine("Mass limitini duzgun qeyd et");
+                    double.TryParse(Console.ReadLine(), out value);
                 }
-                _salaryLimit = value;
+                _salaryLimit = value; 
             }
         }
         public int WorkerLimit
@@ -38,7 +31,7 @@ namespace ConsoleProject.Models
             get => _workerLimit;
             set
             {
-                while (value < 10)
+                while (value < 2)
                 {
                     Console.WriteLine("Minimum isci sayi 10 ola biler");
                     int workerLimit;
@@ -95,18 +88,22 @@ namespace ConsoleProject.Models
         }
         public double CalcSalaryAvarage()
         {
-            double total = 0;
-            foreach (Employee employe in Employees)
+            double sum = 0;
+            int count = 0;
+            foreach (Employee employee in Employees)
             {
-                total += employe.Salary;
+                if (employee != null)
+                {
+                    sum += employee.Salary;
+                    count++;
+                }
             }
-            total = total / Employees.Length;
-            return total;
+            return sum > 0 ? sum / count : 0;
         }
 
         public override string ToString()
         {
-            return $"Departmentin adi: {Name } Departmentin isci limiti: {WorkerLimit } Deparmentin sici maas limiti: {SalaryLimit}";
+            return $"Departmentin adi: {Name} \nDepartmentin isci limiti: {WorkerLimit} \nDeparmentin isci maas limiti: {SalaryLimit}";
         }
     }
 

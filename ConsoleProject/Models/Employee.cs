@@ -93,7 +93,10 @@ namespace ConsoleProject.Models
         }
         public override string ToString()
         {
-            return $"{FullName} {_position} {_salary} {_no}";
+            string[] NameSurname = FullName.Split(" ");
+            NameSurname[0].ToUpper();
+            NameSurname[1].ToUpper();
+            return $"Iscinin adi: {NameSurname[0]} Iscinin soyadi:{NameSurname[1]} Iscinin vezifesi: {_position} iscinin maasi: {_salary} {No}";
         }
     }
 }
