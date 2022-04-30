@@ -31,9 +31,9 @@ namespace ConsoleProject.Models
             get => _workerLimit;
             set
             {
-                while (value < 2)
+                while (value < 1)
                 {
-                    Console.WriteLine("Minimum isci sayi 10 ola biler");
+                    Console.WriteLine("Minimum isci sayi 1 ola biler");
                     int workerLimit;
                     if (int.TryParse(Console.ReadLine(), out workerLimit))
                     {

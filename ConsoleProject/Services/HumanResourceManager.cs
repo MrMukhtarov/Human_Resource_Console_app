@@ -20,6 +20,7 @@ namespace ConsoleProject.Services
         public void AddDepartment(string name, int workerLimit, double salaryLimit)
         {
             Department department = FindName(name);
+          
             if (department == null)
             {
                 Department departments = new Department(name, workerLimit, salaryLimit);
@@ -63,11 +64,11 @@ namespace ConsoleProject.Services
                     {
                         Array.Resize(ref checkdepartment.Employees, checkdepartment.Employees.Length + 1);
                         checkdepartment.Employees[checkdepartment.Employees.Length - 1] = new Employee(fullName.Trim(), position.Trim(), salary, checkdepartment.Name);
-                        Console.WriteLine("Added Sucsesfly");
+                        Console.WriteLine("Elave olundu");
                         return;
                     }
                 }
-                else Console.WriteLine("Ischiler limitten choxdur");
+                else Console.WriteLine("Isciler limitten choxdur");
                 return;
             }
             Console.WriteLine("Departament Tapilmadi");
@@ -91,8 +92,8 @@ namespace ConsoleProject.Services
                 {
                     employee.DepartmentName = newname;
                     employee.No = employee.DepartmentName.Substring(0, 2).ToUpper() + employee.No.Substring(2);
-                    return;
                 }
+                return;
             }
             Console.WriteLine($"{name} adli department tapilmadi");
         }

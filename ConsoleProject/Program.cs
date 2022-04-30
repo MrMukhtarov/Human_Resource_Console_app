@@ -23,17 +23,14 @@ namespace ConsoleProject
                 Console.WriteLine("7. Iscilerin siyahisini gostermek: ");
                 Console.WriteLine("8. Departamentden isci silinmesi: ");
                 Console.WriteLine("9. Sistemden cix");
-
                 string choose = Console.ReadLine();
                 int chooseNum;
                 while (!int.TryParse(choose, out chooseNum) || chooseNum > 9 || chooseNum < 1)
-
                 {
                     Console.WriteLine("Zehmet olmasa duzgun secim edin");
                     choose = Console.ReadLine();
                 }
                 Console.Clear();
-
                 switch (chooseNum)
                 {
                     case 1:
@@ -80,16 +77,30 @@ namespace ConsoleProject
         }
         static void AddDepartment(ref HumanResourceManager humanResourceManager)
         {
+            Console.WriteLine("0: Menyuya Qayitmaq");
             Console.WriteLine("Departmentin adini daxil edin");
-            string chooseDepartment = Console.ReadLine(); 
-
+            string chooseDepartment = Console.ReadLine();
+            if (chooseDepartment == "0")
+            {
+                return;
+            }
+            while (string.IsNullOrWhiteSpace(chooseDepartment) || chooseDepartment.Length < 2)
+            {
+                Console.WriteLine("departmentName duzgun daxil edilmeyib");
+                chooseDepartment = Console.ReadLine();
+            }
             Console.WriteLine("Departmentin isci limitini daxil edin");
             int.TryParse(Console.ReadLine(), out int workerlimit);
-
             Console.WriteLine("Departmentin budcesini elave et");
-            double.TryParse(Console.ReadLine(), out double salarylimit);
-
-            humanResourceManager.AddDepartment(chooseDepartment, workerlimit, salarylimit);
+            string salaryLimit = Console.ReadLine();
+            double SalaryNum;
+            double.TryParse(salaryLimit, out SalaryNum);
+            while (!double.TryParse(salaryLimit, out SalaryNum) || SalaryNum < 250)
+            {
+                Console.WriteLine("Departmentin mass limitini duzgun daxil edin");
+                salaryLimit = Console.ReadLine();
+            }
+            humanResourceManager.AddDepartment(chooseDepartment, workerlimit, SalaryNum);
             foreach (Department department in humanResourceManager.GetDepartments())
             {
                 Console.WriteLine(department);
@@ -97,18 +108,39 @@ namespace ConsoleProject
         }
         static void EditDepartment(ref HumanResourceManager humanResourceManager)
         {
+          
             foreach (Department department in humanResourceManager.Departments)
             {
                 Console.WriteLine(department);
             }
             Console.WriteLine("Departmentler siyahisinda deyisiklik etmek istediyiniz departmentin adini secin");
             string chooseDepartmentName = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(chooseDepartmentName) || chooseDepartmentName.Length < 2)
+            {
+                Console.WriteLine("Departmentin adini duzgun daxil edin");
+                chooseDepartmentName = Console.ReadLine();
+            }
+            if (humanResourceManager.FindName(chooseDepartmentName) == null)
+            {
+                Console.WriteLine("Department adi tapilmadi");
+                Console.WriteLine("Department adi tapilmadi");
+                chooseDepartmentName = Console.ReadLine();
+            }
             Console.WriteLine("Yeni adi daxil edin");
             string chooseNewDepartmentName = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(chooseNewDepartmentName) || chooseNewDepartmentName.Length < 2)
+            {
+                Console.WriteLine("Departmentin yeni adini duzgun daxil edin");
+                chooseNewDepartmentName = Console.ReadLine();
+            }
             humanResourceManager.EditDepartments(chooseDepartmentName, chooseNewDepartmentName);
         }
         static void ShowEmoloyeByDepartmentName(ref HumanResourceManager humanResourceManager)
         {
+            foreach (Department department in humanResourceManager.Departments)
+            {
+                Console.WriteLine(department);
+            }
             Console.WriteLine("Istediyiniz departmenti secin");
             string departmentName = Console.ReadLine();
             if (humanResourceManager.GetDepartments().Length < 0)
@@ -131,20 +163,34 @@ namespace ConsoleProject
             }
             Console.WriteLine("Silmek istediyiniz departmentin nomresini daxil edin");
             string employeeNo = Console.ReadLine();
-
+            while (string.IsNullOrWhiteSpace(employeeNo))
+            {
+                Console.WriteLine("Nomreni duzgun daxil edin");
+                employeeNo = Console.ReadLine();
+            }
             Console.WriteLine("Silmek istediyiniz departmentin adini daxil edin");
             string departmentName = Console.ReadLine();
-
+            while (string.IsNullOrWhiteSpace(departmentName) || departmentName.Length < 2)
+            {
+                Console.WriteLine("Department adini duzgun daxil edin");
+                departmentName = Console.ReadLine();
+            }
             humanResourceManager.RemoveEmployee(employeeNo, departmentName);
         }
         static void AddEmployee(ref HumanResourceManager humanResourceManager)
         {
+          
             foreach (Department department in humanResourceManager.Departments)
             {
                 Console.WriteLine(department);
             }
             Console.WriteLine("Departmentin adini daxil edin");
             string departmentName = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(departmentName) || departmentName.Length < 2)
+            {
+                Console.WriteLine("Department adini duzgun daxil edin");
+                departmentName = Console.ReadLine();
+            }
             Console.WriteLine("Adinizi ve soyadinizi daxil edin");
             string fullName = Console.ReadLine();
             while (!fullName.TrimStart().TrimEnd().Contains(" "))
@@ -154,10 +200,20 @@ namespace ConsoleProject
             }
             Console.WriteLine("Iscinin vezifesini daxil edin");
             string position = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(position) || position.Length < 2)
+            {
+                Console.WriteLine("IScinin vezifesini duzgun daxil edin");
+                position = Console.ReadLine();
+            }
             Console.WriteLine("Iscinin maasini daxil edin");
-            double.TryParse(Console.ReadLine(), out double salary);
-
-            humanResourceManager.AddEmployee(fullName, position, salary, departmentName.ToUpper()); 
+            string salary = Console.ReadLine();
+            double SalaryNum;
+            while (!double.TryParse(salary,out SalaryNum) || SalaryNum < 250)
+            {
+                Console.WriteLine("Iscinin maasini duzgun daxil edin");
+                salary = Console.ReadLine();
+            }
+            humanResourceManager.AddEmployee(fullName, position, SalaryNum, departmentName.ToUpper()); 
         }
         static void ShowAllEmploye(ref HumanResourceManager humanResourceManager)
         {
@@ -182,8 +238,13 @@ namespace ConsoleProject
                     Console.WriteLine(employee);
                 }
             }
-            Console.WriteLine("Deyismek istdeyiniz iacinin qrupunu daxil edin");
+            Console.WriteLine("Deyismek istdeyiniz iacinin Departmentini daxil edin");
             string departmentName = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(departmentName) || departmentName.Length < 2)
+            {
+                Console.WriteLine("Department adini duzgun daxil edin");
+                departmentName = Console.ReadLine();
+            }
             foreach (Department department1 in humanResourceManager.Departments)
             {
                 foreach (Employee employee in department1.Employees)
