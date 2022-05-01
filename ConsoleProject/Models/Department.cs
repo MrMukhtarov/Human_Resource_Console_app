@@ -52,32 +52,47 @@ namespace ConsoleProject.Models
             get => _name;
             set
             {
-                while (NameChecker(value))
+                while (!NameChecker(value))
                 {
                     Console.WriteLine("Ad minimum 2 herfden ibaret ola biler");
                     value = Console.ReadLine();
-                }
-                if (NameChecker(value))
-                {
-                    value = Name;
                 }
                 _name = value;
             }
         }
         public bool NameChecker(string name)
         {
+            bool checkName = false;
             if (name.Length >= 2)
             {
-                foreach (var item in name)
+                foreach (char item in name)
                 {
-                    if (!char.IsLetter(item) || char.IsDigit(item))
+                    if (!char.IsLetter(item))
                     {
-                        return true;
+                        checkName = false;
+                        return checkName;
+                    }
+                    else
+                    {
+                        checkName = true;
                     }
                 }
-                return false;
             }
-            return false;
+            return checkName;
+            #region
+            //if (name.Length >= 2)
+            //{
+            //    foreach (var item in name)
+            //    {
+            //        if (!char.IsLetter(item) || char.IsDigit(item))
+            //        {
+            //            return true;
+            //        }
+            //    }
+            //    return false;
+            //}
+            //return false;
+            #endregion
         }
         public Department(string name, int workerLimit, double salaryLimit)
         {

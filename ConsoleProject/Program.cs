@@ -1,7 +1,6 @@
 ﻿using ConsoleProject.Models;
 using ConsoleProject.Services;
 using System;
-
 namespace ConsoleProject
 {
     class Program
@@ -13,7 +12,6 @@ namespace ConsoleProject
             {
                 Console.WriteLine("=====Welcome Human Resource Manager=====\n");
                 Console.WriteLine("Etmek istediyiniz emeliyyatin reqemini daxil edin\n");
-
                 Console.WriteLine("1. Departamenet yaratmaq: ");
                 Console.WriteLine("2. Isci elave etmek: ");
                 Console.WriteLine("3. Departamentdeki iscilerin siyahisini gostermrek: ");
@@ -161,7 +159,14 @@ namespace ConsoleProject
             {
                 Console.WriteLine(department);
             }
-            Console.WriteLine("Silmek istediyiniz departmentin nomresini daxil edin");
+            foreach (Department department in humanResourceManager.Departments)
+            {
+                foreach (Employee employee in department.Employees)
+                {
+                    Console.WriteLine(employee);
+                }
+            }
+            Console.WriteLine("Silmek istediyiniz iscinin nomresini daxil edin");
             string employeeNo = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(employeeNo))
             {

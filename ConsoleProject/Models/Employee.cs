@@ -7,19 +7,11 @@ namespace ConsoleProject.Models
     class Employee
     {
         private static int _count;
-
-        private readonly string _no;
-
-        private int _id;
         public string FullName { get; set; }
         public string DepartmentName { get; set; }
-
         private string _position;
-
         private double _salary;
-
         public string No { get; set; }
-
         public bool CheckPosition(string position)
         {
             bool checkLetter = false;
@@ -41,7 +33,6 @@ namespace ConsoleProject.Models
             }
             return checkLetter;
         }
-
         public double Salary
         {
             get => _salary;
@@ -80,7 +71,6 @@ namespace ConsoleProject.Models
         {
             _count = 1000;
         }
-
         public Employee(string fullName, string position, double salary, string departmentName)
         {
             FullName = fullName;

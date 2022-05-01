@@ -163,8 +163,6 @@ namespace ConsoleProject.Services
                 return;
             }
             Console.WriteLine($"{departmentName} adli department tapilmadi");
-
         }
-
     }
 }
