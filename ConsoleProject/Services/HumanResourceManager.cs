@@ -32,7 +32,6 @@ namespace ConsoleProject.Services
             {
                 Console.WriteLine("Eyni adda ikinci sirket ola bulmez");
             }
-
         }
         public void AddEmployee(string fullName, string position, double salary, string departmentName)
         {

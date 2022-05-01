@@ -70,9 +70,9 @@ namespace ConsoleProject.Models
             {
                 foreach (var item in name)
                 {
-                    if (!char.IsLetter(item))
+                    if (!char.IsLetter(item) || char.IsDigit(item))
                     {
-                        return false;
+                        return true;
                     }
                 }
                 return false;

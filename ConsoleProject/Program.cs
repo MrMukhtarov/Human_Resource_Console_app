@@ -95,7 +95,7 @@ namespace ConsoleProject
             string salaryLimit = Console.ReadLine();
             double SalaryNum;
             double.TryParse(salaryLimit, out SalaryNum);
-            while (!double.TryParse(salaryLimit, out SalaryNum) || SalaryNum < 250)
+            while (!double.TryParse(salaryLimit, out SalaryNum) || SalaryNum < 250 || salaryLimit.Contains(','))
             {
                 Console.WriteLine("Departmentin mass limitini duzgun daxil edin");
                 salaryLimit = Console.ReadLine();
@@ -208,7 +208,7 @@ namespace ConsoleProject
             Console.WriteLine("Iscinin maasini daxil edin");
             string salary = Console.ReadLine();
             double SalaryNum;
-            while (!double.TryParse(salary,out SalaryNum) || SalaryNum < 250)
+            while (string.IsNullOrWhiteSpace(salary) || !double.TryParse(salary,out SalaryNum) || SalaryNum < 250 || salary.Contains(','))
             {
                 Console.WriteLine("Iscinin maasini duzgun daxil edin");
                 salary = Console.ReadLine();
